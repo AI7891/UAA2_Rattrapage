@@ -1,0 +1,6 @@
+@PresentationLayerWEBApi_HostAddress = http://localhost:5125
+
+GET {{PresentationLayerWEBApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

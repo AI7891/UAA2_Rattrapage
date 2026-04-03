@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/ApplicationCoreBusiness/">
+    <Project Path="ApplicationCoreBusiness/ApplicationCoreBusiness.csproj" />
+  </Folder>
+  <Folder Name="/DomainEntityModels/">
+    <Project Path="DomainEntityModels/DomainEntityModels.csproj" />
+  </Folder>
+  <Folder Name="/InfrastructureDatabase/">
+    <Project Path="InfrastructureDatabase/InfrastructureDatabase.csproj" />
+  </Folder>
+  <Folder Name="/PresentationLayerWEBApi/">
+    <Project Path="PresentationLayerWEBApi/PresentationLayerWEBApi.csproj" />
+  </Folder>
+</Solution>
