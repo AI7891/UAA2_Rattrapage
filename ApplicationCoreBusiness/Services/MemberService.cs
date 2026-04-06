@@ -99,7 +99,7 @@ namespace ApplicationCoreBusiness.Services
             if (string.IsNullOrWhiteSpace(member.Email))
                 throw new ArgumentNullException(nameof(member.Email));
             // Check if a member with the same email already exists in the repository. If it does, throw an InvalidOperationException to prevent duplicate entries. This ensures that each member has a unique email address in the system, even when updating existing members.
-            var existingMember = _memberRepository.GetMemberByEmailAsync(member.Email!).Result;
+            var existingMember = await _memberRepository.GetMemberByEmailAsync(member.Email!);
             // If a member with the provided email already exists, throw an exception to prevent updating to a duplicate email. This check is crucial to maintain data integrity and ensure that each member has a unique email address in the system, even when updating member information.
             if (existingMember == null)
             {
