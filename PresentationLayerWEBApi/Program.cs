@@ -14,7 +14,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), 
     npgsqlOptions => 
     { 
-        npgsqlOptions.MapEnum<MemberStatus>("MemberStatus"); 
+        npgsqlOptions.MapEnum<MemberStatus>(); 
     })
 );
 // Register the MemberRepository as the implementation for the IMember_Repository interface, allowing for dependency injection of the repository in the application. This enables the application to use the repository for data access operations related to members.

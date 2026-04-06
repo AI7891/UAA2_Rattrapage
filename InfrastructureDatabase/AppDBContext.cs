@@ -18,7 +18,7 @@ namespace InfrastructureDatabase
             base.OnModelCreating(modelBuilder);
 
             // Register the MemberStatus enum with PostgreSQL, enabling it to be used as a column type in the database.
-            modelBuilder.HasPostgresEnum<MemberStatus>("MemberStatus");
+            modelBuilder.HasPostgresEnum<MemberStatus>();
 
             // Apply all entity configurations defined in the same assembly as AppDBContext, allowing for a modular and organized approach to configuring the database schema.
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDBContext).Assembly);

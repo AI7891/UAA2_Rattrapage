@@ -60,11 +60,10 @@ namespace InfrastructureDatabase.Repositories
 
         public async Task<Member> UpdateMemberAsync(Member member)
         {
-            var memberToUpdate = (await GetMemberByIdAsync(member.Id))!;
-            // Update the member's properties using the UpdateFullMember method
-            memberToUpdate.UpdateFullMember(member.Name, member.Description, member.Email, member.Phone, member.Status);
-            // Mark the member as modified in the DbContext
-            _dbContext.Members.Update(memberToUpdate);
+            // Use Update to update the member in the database, and then call SaveChangesAsync to persist the changes
+            _dbContext.Members.Update(member);
+            // Save the changes to the database
+            await _dbContext.SaveChangesAsync();
             return member;
         }
     }

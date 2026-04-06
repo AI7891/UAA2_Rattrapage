@@ -41,8 +41,14 @@ namespace InfrastructureDatabase.Configurations
                 .HasMaxLength(500);
 
             builder.Property(m => m.Status)
-                .HasColumnType("MemberStatus")
                 .IsRequired();
+
+            #endregion
+
+            #region Indexers]
+
+            builder.HasIndex(m => m.Email)
+                .IsUnique();
 
             #endregion
         }

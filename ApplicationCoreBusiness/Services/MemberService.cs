@@ -92,6 +92,14 @@ namespace ApplicationCoreBusiness.Services
 
         public async Task<Member> UpdateMemberAsync(UpdateMemberDto member)
         {
+            // Check if the provided member object is null. If it is, throw an ArgumentNullException to indicate that a valid member object must be provided for the update operation. This check ensures that the service does not attempt to update a null member, which would lead to errors.
+            if (member is null)
+            {
+                throw new ArgumentNullException(nameof(member));
+            }
+            // Check if the email property of the member is null or whitespace. If it is, throw an ArgumentNullException to indicate that a valid email address must be provided for the update operation. This check ensures that the service does not attempt to update a member without a valid email, which is crucial for identifying the member in the repository.
+            if (string.IsNullOrWhiteSpace(member.Email))
+                throw new ArgumentNullException(nameof(member.Email));
             // Check if a member with the same email already exists in the repository. If it does, throw an InvalidOperationException to prevent duplicate entries. This ensures that each member has a unique email address in the system, even when updating existing members.
             var existingMember = _memberRepository.GetMemberByEmailAsync(member.Email!).Result;
             // If a member with the provided email already exists, throw an exception to prevent updating to a duplicate email. This check is crucial to maintain data integrity and ensure that each member has a unique email address in the system, even when updating member information.
@@ -100,13 +108,9 @@ namespace ApplicationCoreBusiness.Services
                 throw new InvalidOperationException(
                     $"A member with the email '{member.Email}' doesn't exists.");
             }
-            if (member is null)
-            {
-                throw new ArgumentNullException(nameof(member));
-            }
             // Update the member's details in the repository asynchronously. This allows the service to persist any changes made to the member's information, ensuring that the data store reflects the most current state of the member.
 
-            existingMember.UpdateFullMember(member.Name!, member.Description!, member.Email!, member.Phone!, existingMember.Status);
+            existingMember.UpdateFullMember(member.Name ?? existingMember.Name, member.Description ?? existingMember.Description, member.Email, member.Phone ?? existingMember.Phone, existingMember.Status);
 
             await _memberRepository.UpdateMemberAsync(existingMember);
             return existingMember;
