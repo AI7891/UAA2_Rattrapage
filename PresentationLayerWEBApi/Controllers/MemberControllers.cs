@@ -60,16 +60,37 @@ namespace PresentationLayerWEBApi.Controllers
                     Phone = request.Phone,
                 };
 
-                var result = await _memberService.UpdateMemberAsync(dto);
+                var updatedMember = await _memberService.UpdateMemberAsync(dto);
 
-                return Ok(result);
+                return Ok(updatedMember);
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, new
                 {
                     message = "An unexpected error occurred while updating the member.",
+                    details = ex.Message
+                });
+            }
+        }
+        [HttpDelete("delete/{id:int}")]
+        public async Task<IActionResult> DeleteMember(int id)
+        {
+            try
+            {
+                // Step 1: Retrieve the member by ID
+                var member = await _memberService.GetMemberByIDAsync(id);
+
+                // Step 2: Delete the member
+                await _memberService.DeleteMemberAsync(member);
+
+                return Ok(new { message = $"Member with ID {id} deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "An unexpected error occurred while deleting the member.",
                     details = ex.Message
                 });
             }

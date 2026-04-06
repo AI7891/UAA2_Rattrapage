@@ -47,7 +47,7 @@ namespace InfrastructureDatabase.Repositories
         public async Task<Member?> GetMemberByEmailAsync(string email)
         {
             // Use FirstOrDefaultAsync to find the member by email, which will return null if not found
-            var member = (await _dbContext.Members.FirstOrDefaultAsync(m => m.Email == email))!;
+            var member = await _dbContext.Members.FirstOrDefaultAsync(m => m.Email == email);
             return member;
         }
 

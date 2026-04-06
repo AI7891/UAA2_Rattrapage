@@ -80,7 +80,7 @@ namespace ApplicationCoreBusiness.Services
         public async Task<Member> GetMemberByIDAsync(int id)
         {
             // Retrieve an existing member by their ID from the repository. This method is currently not implemented, but it is intended to fetch a member's details based on their unique identifier. The result of this operation would typically be used to display member information or perform further operations on the member.
-            var existingMember = _memberRepository.GetMemberByIdAsync(id).Result;
+            var existingMember = await _memberRepository.GetMemberByIdAsync(id);
             // If a member is found with the provided ID, throw an exception to indicate that the member already exist. This check is important to ensure that the service does not attempt to operate on a non-existent member, which could lead to errors or inconsistent data states.
             if (existingMember != null)
             {
