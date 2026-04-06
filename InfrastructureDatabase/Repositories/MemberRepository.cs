@@ -27,12 +27,15 @@ namespace InfrastructureDatabase.Repositories
             return member;
         }
 
-        public async Task<bool> DeleteMemberAsync(Member member)
+        public async Task<bool> DeleteByEmailAsync(string email)
         {
-            // Use GetMemberByIdAsync to find the member by ID, and if it exists, delete it from the database
-            var targetedM = (await GetMemberByIdAsync(member.Id))!;
-                             await _dbContext.Members.Where(m => m.Id == targetedM.Id).ExecuteDeleteAsync();
-                             await _dbContext.SaveChangesAsync();
+            var member = await _dbContext.Members.FirstOrDefaultAsync(m => m.Email == email);
+
+            if (member == null)
+                throw new InvalidOperationException($"Member with email '{email}' not found.");
+
+            _dbContext.Members.Remove(member);
+            await _dbContext.SaveChangesAsync();
             return true;
 
         }

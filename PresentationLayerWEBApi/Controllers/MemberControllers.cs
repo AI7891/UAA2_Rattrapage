@@ -73,18 +73,20 @@ namespace PresentationLayerWEBApi.Controllers
                 });
             }
         }
-        [HttpDelete("delete/{id:int}")]
-        public async Task<IActionResult> DeleteMember(int id)
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteMember([FromBody] DeleteMemberRequestDto request)
         {
             try
             {
-                // Step 1: Retrieve the member by ID
-                var member = await _memberService.GetMemberByIDAsync(id);
-
-                // Step 2: Delete the member
-                await _memberService.DeleteMemberAsync(member);
-
-                return Ok(new { message = $"Member with ID {id} deleted successfully." });
+                // Validate the request
+                if (request == null || string.IsNullOrWhiteSpace(request.Email))
+                    return BadRequest("Email is required.");
+                // Check if the member exists before attempting to delete
+                var member = await _memberService.GetMemberByEmailAsync(request.Email);
+                // If the member does not exist, return a NotFound response
+                await _memberService.DeleteMemberAsync(member.Email);
+                // If the deletion is successful, return a success message
+                return Ok(new { message = $"Member with email '{request.Email}' deleted successfully." });
             }
             catch (Exception ex)
             {

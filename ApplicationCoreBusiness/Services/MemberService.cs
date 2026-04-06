@@ -43,14 +43,12 @@ namespace ApplicationCoreBusiness.Services
             return newMember;
         }
 
-        public async Task DeleteMemberAsync(Member member)
+        public async Task DeleteMemberAsync(string email)
         {
-            if (member is null)
-            {
-                throw new ArgumentNullException(nameof(member));
-            }
-            // Delete the specified member from the repository asynchronously. This allows the service to remove the member from the data store, ensuring that it is no longer available for retrieval or operations.
-            await _memberRepository.DeleteMemberAsync(member);
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentNullException(nameof(email));
+
+            await _memberRepository.DeleteByEmailAsync(email);
         }
 
         public async Task<Func<IEnumerable<Member>>> GetAllMembersAsync()

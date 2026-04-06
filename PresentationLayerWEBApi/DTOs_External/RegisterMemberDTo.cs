@@ -55,5 +55,17 @@ namespace PresentationLayerWEBApi.DTOs_External
         public string Phone { get; set; } = default!;
 
     }
-   
+    public class MemberResponse
+    {
+        public string Name { get; set; } = default!;
+        public string Description { get; set; } = default!;
+        public string Email { get; set; } = default!;
+        public string Phone { get; set; } = default!;
+    }
+
+    public class DeleteMemberResponse
+    {
+        public string Message { get; set; } = default!;
+    }
+
 }
