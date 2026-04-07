@@ -1,8 +1,10 @@
+using ApplicationCoreBusiness.Interfaces.IEmailer;
 using ApplicationCoreBusiness.Interfaces.IRepositories;
 using ApplicationCoreBusiness.Interfaces.IServices;
 using ApplicationCoreBusiness.Services;
 using DomainEntityModels.Enums;
 using InfrastructureDatabase;
+using InfrastructureDatabase.EmailerSrevice;
 using InfrastructureDatabase.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -22,6 +24,8 @@ builder.Services.AddScoped<IMember_Repository, MemberRepository>();
 
 // Register the MemberService as the implementation for the IMemberService interface, allowing for dependency injection of the service in the application. This enables the application to use the service for business logic operations related to members, such as creating, deleting, and retrieving members.
 builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IEmailerService, EmailerService>();
+
 
 
 

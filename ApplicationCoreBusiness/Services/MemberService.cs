@@ -1,4 +1,5 @@
 ﻿using ApplicationCoreBusiness.DTOs;
+using ApplicationCoreBusiness.Interfaces.IEmailer;
 using ApplicationCoreBusiness.Interfaces.IRepositories;
 using ApplicationCoreBusiness.Interfaces.IServices;
 using DomainEntityModels.Enums;
@@ -15,10 +16,12 @@ namespace ApplicationCoreBusiness.Services
         #region IMemberRepositoryInjection
         // This section defines a private readonly field for the IMember_Repository and a constructor that takes an IMember_Repository as a parameter. The constructor checks if the memberRepository is null and throws an ArgumentNullException if it is, ensuring that the service has a valid repository to work with.
         private readonly IMember_Repository _memberRepository;
+        private readonly IEmailerService _emailerService;
         // Constructor for the MemberService class that takes an IMember_Repository as a parameter and assigns it to the private readonly field _memberRepository. This allows the service to interact with the repository to perform operations related to members.
-        public MemberService(IMember_Repository memberRepository)
+        public MemberService(IMember_Repository memberRepository, IEmailerService emailerService    )
         {
             _memberRepository = memberRepository ?? throw new ArgumentNullException(nameof(memberRepository));
+            _emailerService = emailerService ?? throw new ArgumentNullException(nameof(emailerService));
         }
         #endregion
 
@@ -40,6 +43,9 @@ namespace ApplicationCoreBusiness.Services
             var newMember = Member.CreateNewAdmin(member.Name, member.Description, member.Email, member.Phone, MemberStatus.Active);
             // Save the newly created member to the repository asynchronously. This allows the service to persist the new member in the data store, making it available for future retrieval and operations.
             await _memberRepository.CreateMemberAsync(newMember);
+            // Send a welcome email to the new member using the IEmailerService. This provides a way to engage with the new member and confirm that their account has been successfully created. The email includes the member's name for a personalized touch.
+            _emailerService.SendWelcomeEmail(newMember.Email, newMember.Name);
+
             return newMember;
         }
 
